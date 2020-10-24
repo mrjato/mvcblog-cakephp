@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
+
 class PostsController extends AppController
 {
     public function initialize(): void
@@ -56,6 +58,25 @@ class PostsController extends AppController
         }
 
         $this->set('post', $post);
+    }
+
+    public function delete($id)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+
+        try {
+            $post = $this->Posts->get($id);
+            
+            if ($this->Posts->delete($post)) {
+                $this->Flash->success("El artículo {$post->title} ha sido eliminado.");
+            } else {
+                $this->Flash->error("El artículo {$post->title} no ha podido ser eliminado.");
+            }
+        } catch (RecordNotFoundException $exception) {
+            $this->Flash->error("No se ha encontrado un artículo con id {$id}.");
+        }
+
+        return $this->redirect(['action' => 'index']);
     }
 }
 ?>

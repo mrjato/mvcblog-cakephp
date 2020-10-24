@@ -11,6 +11,7 @@ class PostsController extends AppController
         parent::initialize();
 
         $this->loadComponent('Flash');
+        $this->Authentication->allowUnauthenticated(['index', 'view']);
     }
 
     public function index()
@@ -25,14 +26,16 @@ class PostsController extends AppController
         $this->set(compact('post'));
     }
 
-    public function add() {
+    public function add()
+    {
         $post = $this->Posts->newEmptyEntity();
 
         if ($this->request->is('post')) {
             $post = $this->Posts->patchEntity($post, $this->request->getData());
-    
-            $post->author = 'profesor'; // Deberemos cambiarlo en el futuro
-    
+
+            $user = $this->Authentication->getIdentity();
+            $post->author = $user->username;
+
             if ($this->Posts->save($post)) {
                 $this->Flash->success('El artículo ha sido almacenado.');
                 return $this->redirect(['action' => 'index']);
@@ -50,11 +53,15 @@ class PostsController extends AppController
         if ($this->request->is(['post', 'put'])) {
             $this->Posts->patchEntity($post, $this->request->getData());
 
-            if ($this->Posts->save($post)) {
+            $user = $this->Authentication->getIdentity();
+            if ($post->author !== $user->username) {
+                $this->Flash->error('El usuario actual no es propietario del artículo.');
+            } else if ($this->Posts->save($post)) {
                 $this->Flash->success('El artículo ha sido actualizado.');
                 return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('El artículo no se ha podido modificar.');
             }
-            $this->Flash->error('El artículo no se ha podido modificar.');
         }
 
         $this->set('post', $post);
@@ -66,14 +73,17 @@ class PostsController extends AppController
 
         try {
             $post = $this->Posts->get($id);
-            
-            if ($this->Posts->delete($post)) {
-                $this->Flash->success("El artículo {$post->title} ha sido eliminado.");
+            $user = $this->Authentication->getIdentity();
+
+            if ($post->author !== $user->username) {
+                $this->Flash->error(__('El usuario actual no es propietario del artículo.'));
+            } else if ($this->Posts->delete($post)) {
+                $this->Flash->success(__('El artículo {0} ha sido eliminado.', $post->title));
             } else {
-                $this->Flash->error("El artículo {$post->title} no ha podido ser eliminado.");
+                $this->Flash->error(__('El artículo {0} no ha podido ser eliminado.', $post->title));
             }
         } catch (RecordNotFoundException $exception) {
-            $this->Flash->error("No se ha encontrado un artículo con id {$id}.");
+            $this->Flash->error(__('No se ha encontrado un artículo con id {0}.', $id));
         }
 
         return $this->redirect(['action' => 'index']);

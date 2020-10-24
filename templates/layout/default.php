@@ -41,8 +41,14 @@ $cakeDescription = 'MVCBlog';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
         <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/4/">API</a>
+            <?php
+                if ($user) {
+                    echo "<strong>{$user->username}</strong>";
+                    echo $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']);
+                } else {
+                    echo $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login']);
+                }
+            ?>
         </div>
     </nav>
     <main class="main">

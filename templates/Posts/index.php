@@ -15,11 +15,21 @@
                 <?= $post->author ?>
             </td>
             <td>
-                <?= $this->Html->link('Editar', ['action' => 'edit', $post->id]) ?>
-                <?= $this->Form->postLink('Eliminar', ['action' => 'delete', $post->id], ['confirm' => '¿Estás seguro?']) ?>
+                <?php
+                    if ($user && $post->author === $user->username) {
+                        echo $this->Html->link('Editar', ['action' => 'edit', $post->id]);
+                        echo '&nbsp;';
+                        echo $this->Form->postLink('Eliminar', ['action' => 'delete', $post->id], ['confirm' => '¿Estás seguro?']);
+                    }
+                ?>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
 
-<?= $this->Html->link('Crear artículo', ['action' => 'add']) ?>
+<?php
+if ($user)
+{
+    echo $this->Html->link('Crear artículo', ['action' => 'add']);
+}
+?>

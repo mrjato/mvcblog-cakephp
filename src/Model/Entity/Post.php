@@ -8,7 +8,7 @@ class Post extends Entity
 {
     protected $_accesible = [
         '*' => true,
-        'id' => false   # Al ser autogenerado se excluye de la asignación automática
+        'id' => false    # Al ser autogenerado se excluye de la asignación automática
     ];
 }
 

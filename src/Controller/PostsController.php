@@ -40,5 +40,22 @@ class PostsController extends AppController
 
         $this->set('post', $post);
     }
+
+    public function edit($id)
+    {
+        $post = $this->Posts->get($id);
+
+        if ($this->request->is(['post', 'put'])) {
+            $this->Posts->patchEntity($post, $this->request->getData());
+
+            if ($this->Posts->save($post)) {
+                $this->Flash->success('El artículo ha sido actualizado.');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('El artículo no se ha podido modificar.');
+        }
+
+        $this->set('post', $post);
+    }
 }
 ?>

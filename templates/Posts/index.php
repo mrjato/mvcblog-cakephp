@@ -15,7 +15,7 @@
                 <?= $post->author ?>
             </td>
             <td>
-                &nbsp; <!-- Aquí irán los botones de acción -->
+                <?= $this->Html->link('Editar', ['action' => 'edit', $post->id]) ?>
             </td>
         </tr>
     <?php endforeach; ?>

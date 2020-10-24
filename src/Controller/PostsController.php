@@ -4,6 +4,13 @@ namespace App\Controller;
 
 class PostsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->loadComponent('Flash');
+    }
+
     public function index()
     {
         $posts = $this->Posts->find();
@@ -14,6 +21,24 @@ class PostsController extends AppController
     {
         $post = $this->Posts->get($id);
         $this->set(compact('post'));
+    }
+
+    public function add() {
+        $post = $this->Posts->newEmptyEntity();
+
+        if ($this->request->is('post')) {
+            $post = $this->Posts->patchEntity($post, $this->request->getData());
+    
+            $post->author = 'profesor'; // Deberemos cambiarlo en el futuro
+    
+            if ($this->Posts->save($post)) {
+                $this->Flash->success('El artículo ha sido almacenado.');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('El artículo no se ha podido almacenar.');
+        }
+
+        $this->set('post', $post);
     }
 }
 ?>

@@ -7,6 +7,13 @@ use Cake\Validation\Validator;
 
 class UsersTable extends Table
 {
+    public function initialize(array $config): void
+    {
+        $this->hasMany('Posts')
+            ->setForeignKey('author')
+            ->setProperty('posts');
+    }
+
     public function validationDefault(Validator $validator): Validator
     {
         return $validator

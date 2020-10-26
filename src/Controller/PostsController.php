@@ -22,7 +22,7 @@ class PostsController extends AppController
 
     public function view($id)
     {
-        $post = $this->Posts->get($id);
+        $post = $this->Posts->get($id, ['contain' => ['Comments']]);
         $this->set(compact('post'));
     }
 

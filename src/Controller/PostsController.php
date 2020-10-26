@@ -37,10 +37,10 @@ class PostsController extends AppController
             $post->author = $user->username;
 
             if ($this->Posts->save($post)) {
-                $this->Flash->success('El artículo ha sido almacenado.');
+                $this->Flash->success(__('El artículo ha sido almacenado.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error('El artículo no se ha podido almacenar.');
+            $this->Flash->error(__('El artículo no se ha podido almacenar.'));
         }
 
         $this->set('post', $post);
@@ -55,12 +55,12 @@ class PostsController extends AppController
 
             $user = $this->Authentication->getIdentity();
             if ($post->author !== $user->username) {
-                $this->Flash->error('El usuario actual no es propietario del artículo.');
+                $this->Flash->error(__('El usuario actual no es propietario del artículo.'));
             } else if ($this->Posts->save($post)) {
-                $this->Flash->success('El artículo ha sido actualizado.');
+                $this->Flash->success(__('El artículo ha sido actualizado.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('El artículo no se ha podido modificar.');
+                $this->Flash->error(__('El artículo no se ha podido modificar.'));
             }
         }
 

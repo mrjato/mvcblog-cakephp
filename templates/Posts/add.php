@@ -1,8 +1,8 @@
-<h1>Crear artículo</h1>
+<h1><?= __('Crear artículo') ?></h1>
 <?php
     echo $this->Form->create($post);
-    echo $this->Form->control('title');
-    echo $this->Form->control('content', ['rows' => '3']);
-    echo $this->Form->button('Guardar artículo');
+    echo $this->Form->control('title', ['label' => __('Título')]);
+    echo $this->Form->control('content', ['label' => __('Contenido'), 'rows' => '3']);
+    echo $this->Form->button(__('Guardar artículo'));
     echo $this->Form->end();
 ?>

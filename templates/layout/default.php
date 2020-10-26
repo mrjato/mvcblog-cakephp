@@ -41,6 +41,8 @@ $cakeDescription = 'MVCBlog';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
         <div class="top-nav-links">
+            <?= $this->Html->link('es', ['controller' => 'Locales', 'action' => 'change', 'es']) ?> |
+            <?= $this->Html->link('en', ['controller' => 'Locales', 'action' => 'change', 'en']) ?>
             <?php
                 if ($user) {
                     echo "<strong>{$user->username}</strong>";

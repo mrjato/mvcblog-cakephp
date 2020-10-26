@@ -19,7 +19,7 @@ class UsersController extends AppController
             $target = $this->Authentication->getLoginRedirect() ?? '/';
             return $this->redirect($target);
         } else if ($this->request->is('post')) {
-            $this->Flash->error('Usuario o password incorrectos');
+            $this->Flash->error(__('Usuario o password incorrectos'));
         }
     }
 
@@ -36,10 +36,10 @@ class UsersController extends AppController
                 $user = $this->Users->patchEntity($user, $this->request->getData());
 
                 if ($this->Users->save($user)) {
-                    $this->Flash->success('Usuario registrado con éxito.');
+                    $this->Flash->success(__('Usuario registrado con éxito.'));
                     return $this->redirect(['action' => 'login']);
                 }
-                $this->Flash->error('No se ha podido completar el registro.');
+                $this->Flash->error(__('No se ha podido completar el registro.'));
             }
 
             $this->set('user', $user);

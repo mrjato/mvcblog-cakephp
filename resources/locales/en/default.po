@@ -1,0 +1,184 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-10-26 20:35+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/CommentsController.php:25
+msgid "El comentario ha sido almacenado."
+msgstr "The comment has been stored."
+
+#: Controller/CommentsController.php:27
+msgid "El comentario no se ha podido almacenar."
+msgstr "The comment could not been stored."
+
+#: Controller/PostsController.php:38
+msgid "El artículo ha sido almacenado."
+msgstr "The post has been stored."
+
+#: Controller/PostsController.php:41
+msgid "El artículo no se ha podido almacenar."
+msgstr "The post could not been stored."
+
+#: Controller/PostsController.php:56
+#: Controller/PostsController.php:79
+msgid "El usuario actual no es propietario del artículo."
+msgstr "The current user is not the owner of the post."
+
+#: Controller/PostsController.php:58
+msgid "El artículo ha sido actualizado."
+msgstr "The post has been updated."
+
+#: Controller/PostsController.php:63
+msgid "El artículo no se ha podido modificar."
+msgstr "The post could not been updated."
+
+#: Controller/PostsController.php:81
+msgid "El artículo {0} ha sido eliminado."
+msgstr "The post {0} has been deleted."
+
+#: Controller/PostsController.php:83
+msgid "El artículo {0} no ha podido ser eliminado."
+msgstr "The post {0} could not be deleted."
+
+#: Controller/PostsController.php:86
+msgid "No se ha encontrado un artículo con id {0}."
+msgstr "No post found with id {0}."
+
+#: Controller/UsersController.php:22
+msgid "Usuario o password incorrectos"
+msgstr "Invalid user or password"
+
+#: Controller/UsersController.php:39
+msgid "Usuario registrado con éxito."
+msgstr "User successfully registered."
+
+#: Controller/UsersController.php:42
+msgid "No se ha podido completar el registro."
+msgstr "Registration could not be completed."
+
+#: Posts/add.php:1
+#: Posts/index.php:33
+msgid "Crear artículo"
+msgstr "Create post"
+
+#: Posts/add.php:4
+#: Posts/edit.php:5
+#: Posts/index.php:4
+msgid "Título"
+msgstr "Title"
+
+#: Posts/add.php:5
+#: Posts/edit.php:6
+msgid "Contenido"
+msgstr "Content"
+
+#: Posts/add.php:6
+#: Posts/edit.php:7
+msgid "Guardar artículo"
+msgstr "Save post"
+
+#: Posts/edit.php:1
+msgid "Editar artículo"
+msgstr "Edit post"
+
+#: Posts/index.php:1
+msgid "Artículos"
+msgstr "Posts"
+
+#: Posts/index.php:5
+msgid "Autor"
+msgstr "Author"
+
+#: Posts/index.php:6
+msgid "Acciones"
+msgstr "Actions"
+
+#: Posts/index.php:20
+msgid "Editar"
+msgstr "Edit"
+
+#: Posts/index.php:22
+msgid "Eliminar"
+msgstr "Delete"
+
+#: Posts/index.php:22
+msgid "¿Estás seguro?"
+msgstr "Are you sure?"
+
+#: Posts/view.php:2
+msgid "Artículo: {0}"
+msgstr "Post: {0}"
+
+#: Posts/view.php:3
+msgid "por {0}"
+msgstr "by {0}"
+
+#: Posts/view.php:11
+msgid "Comentarios"
+msgstr "Comments"
+
+#: Posts/view.php:13
+msgid "Ningún comentario"
+msgstr "No comments."
+
+#: Posts/view.php:17
+msgid "{0} ha comentado..."
+msgstr "{0} has commented..."
+
+#: Posts/view.php:26
+msgid "Escribe un comentario"
+msgstr "Write a comment"
+
+#: Posts/view.php:35
+msgid "Comentario"
+msgstr "Comment"
+
+#: Posts/view.php:36
+msgid "Comentar"
+msgstr "Comment"
+
+#: Users/login.php:1
+#: Users/login.php:9
+#: Users/register.php:10
+msgid "Login"
+msgstr "Login"
+
+#: Users/login.php:5
+#: Users/register.php:5
+msgid "Por favor, introduce tu usuario y contraseña"
+msgstr "Please, introduce your user and password"
+
+#: Users/login.php:6
+#: Users/register.php:6
+msgid "Usuario"
+msgstr "User"
+
+#: Users/login.php:7
+#: Users/register.php:7
+msgid "Contraseña"
+msgstr "Password"
+
+#: Users/login.php:10
+msgid "Registrarse"
+msgstr "Register"
+
+#: Users/register.php:1
+#: Users/register.php:9
+msgid "Registro"
+msgstr "Registry"
+
+#: layout/error.php:38
+msgid "Volver"
+msgstr "Back"
+

@@ -22,9 +22,9 @@ class CommentsController extends AppController
             $comment->author = $user->username;
 
             if ($this->Comments->save($comment)) {
-                $this->Flash->success('El comentario ha sido almacenado.');
+                $this->Flash->success(__('El comentario ha sido almacenado.'));
             } else {
-                $this->Flash->error('El comentario no se ha podido almacenar.');
+                $this->Flash->error(__('El comentario no se ha podido almacenar.'));
             }
 
             return $this->redirect(['controller' => 'Posts', 'action' => 'view', $comment->post]);

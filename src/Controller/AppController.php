@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller
@@ -47,6 +48,10 @@ class AppController extends Controller
 
         $user = $this->Authentication->getIdentity();
         $this->set(compact('user'));
+
+        if ($this->request->getSession()->check('Config.locale')) {
+            I18n::setLocale($this->request->getSession()->read('Config.locale'));
+        }
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.

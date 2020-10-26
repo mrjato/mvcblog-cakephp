@@ -1,9 +1,9 @@
-<h1>Artículos</h1>
+<h1><?= __('Artículos') ?></h1>
 <table>
     <tr>
-        <th>Título</th>
-        <th>Autor</th>
-        <th>Acciones</th>
+        <th><?= __('Título') ?></th>
+        <th><?= __('Autor') ?></th>
+        <th><?= __('Acciones') ?></th>
     </tr>
 
     <?php foreach ($posts as $post) : ?>
@@ -17,9 +17,9 @@
             <td>
                 <?php
                     if ($user && $post->author === $user->username) {
-                        echo $this->Html->link('Editar', ['action' => 'edit', $post->id]);
+                        echo $this->Html->link(__('Editar'), ['action' => 'edit', $post->id]);
                         echo '&nbsp;';
-                        echo $this->Form->postLink('Eliminar', ['action' => 'delete', $post->id], ['confirm' => '¿Estás seguro?']);
+                        echo $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $post->id], ['confirm' => __('¿Estás seguro?')]);
                     }
                 ?>
             </td>
@@ -30,6 +30,6 @@
 <?php
 if ($user)
 {
-    echo $this->Html->link('Crear artículo', ['action' => 'add']);
+    echo $this->Html->link(__('Crear artículo'), ['action' => 'add']);
 }
 ?>

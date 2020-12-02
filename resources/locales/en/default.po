@@ -55,6 +55,27 @@ msgstr "The post {0} could not be deleted."
 msgid "No se ha encontrado un artículo con id {0}."
 msgstr "No post found with id {0}."
 
+#: Controller/PrivateRest/PostsController.php:23
+#: Controller/PrivateRest/PostsController.php:41
+msgid "Datos de artículo incorrectos."
+msgstr "Invalid data for post."
+
+#: Controller/PrivateRest/PostsController.php:33
+msgid "No puedes modificar el artículo."
+msgstr "You are not allowed to modify the post."
+
+#: Controller/PrivateRest/PostsController.php:52
+msgid "No puedes eliminar el artículo."
+msgstr "You are not allowed to delete the post."
+
+#: Controller/PrivateRest/PostsController.php:55
+msgid "Artículo eliminado."
+msgstr "Post deleted."
+
+#: Controller/PrivateRest/PostsController.php:59
+msgid "No se ha podido eliminar el artículo."
+msgstr "The post could not been removed."
+
 #: Controller/UsersController.php:22
 msgid "Usuario o password incorrectos"
 msgstr "Invalid user or password"

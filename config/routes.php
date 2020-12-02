@@ -23,6 +23,75 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\Identifier\IdentifierInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
+
+class WebAuthenticator implements AuthenticationServiceProviderInterface {
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $service = new AuthenticationService();
+
+        $fields = [
+            IdentifierInterface::CREDENTIAL_USERNAME => 'username',
+            IdentifierInterface::CREDENTIAL_PASSWORD => 'passwd'
+        ];
+
+        
+        // Define where users should be redirected to when they are not authenticated
+        $service->setConfig([
+            'unauthenticatedRedirect' => '/users/login',
+            'queryParam' => 'redirect',
+        ]);
+        // Load the authenticators. Session should be first.
+        $service->loadAuthenticator('Authentication.Session');
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => '/users/login'
+        ]);
+
+        // Load identifiers
+        $service->loadIdentifier('Authentication.Password', compact('fields'));
+
+        return $service;
+    }
+
+}
+
+class RestAuthenticator implements AuthenticationServiceProviderInterface {
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $service = new AuthenticationService();
+
+        $fields = [
+            IdentifierInterface::CREDENTIAL_USERNAME => 'username',
+            IdentifierInterface::CREDENTIAL_PASSWORD => 'passwd'
+        ];
+
+        $service->loadAuthenticator('Authentication.HttpBasic');
+        $service->loadIdentifier('Authentication.Password', compact('fields'));
+
+        return $service;
+    }
+}
 
 /*
  * The default class to use for all routes
@@ -44,7 +113,16 @@ use Cake\Routing\RouteBuilder;
 /** @var \Cake\Routing\RouteBuilder $routes */
 $routes->setRouteClass(DashedRoute::class);
 
+$routes->registerMiddleware('web-auth', new AuthenticationMiddleware(new WebAuthenticator()));
+$routes->registerMiddleware('rest-auth', new AuthenticationMiddleware(new RestAuthenticator()));
+$routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+    'httponly' => true,
+]));
+
 $routes->scope('/', function (RouteBuilder $builder) {
+    $builder->applyMiddleware('web-auth');
+    $builder->applyMiddleware('csrf');
+
     /*
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
@@ -71,6 +149,18 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * routes you want in your application.
      */
     $builder->fallbacks();
+});
+
+
+$routes->scope('/public', ['prefix' => 'PublicRest'], function (RouteBuilder $builder) {
+    $builder->setExtensions(['json']);
+    $builder->resources('Posts');
+});
+
+$routes->scope('/private', ['prefix' => 'PrivateRest'], function (RouteBuilder $builder) {
+    $builder->applyMiddleware('rest-auth');
+    $builder->setExtensions(['json']);
+    $builder->resources('Posts');
 });
 
 /*

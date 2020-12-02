@@ -23,9 +23,11 @@ class PostsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->requirePresence('title')
             ->minLength('title', 3)
             ->maxLength('title', 255)
 
+            ->requirePresence('content')
             ->notEmptyString('content')
             ->maxLength('content', 255);
 

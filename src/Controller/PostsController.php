@@ -10,7 +10,6 @@ class PostsController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Flash');
         $this->Authentication->allowUnauthenticated(['index', 'view']);
     }
 
@@ -18,6 +17,7 @@ class PostsController extends AppController
     {
         $posts = $this->Posts->find();
         $this->set(compact('posts'));
+        $this->viewBuilder()->setOption('serialize', ['posts']);
     }
 
     public function view($id)

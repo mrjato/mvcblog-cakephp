@@ -16,21 +16,17 @@ declare(strict_types=1);
  */
 namespace App;
 
-use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Authentication\AuthenticationService;
-use Authentication\AuthenticationServiceInterface;
-use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\IdentifierInterface;
-use Authentication\Middleware\AuthenticationMiddleware;
-use Psr\Http\Message\ServerRequestInterface;
+
+
+use Cake\Core\Configure;
+use App\Middleware\CorsMiddleware;
 
 /**
  * Application setup class.
@@ -38,7 +34,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -84,6 +80,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'cacheTime' => Configure::read('Asset.cacheTime'),
             ]))
 
+            ->add(new CorsMiddleware())
+
             // Add routing middleware.
             // If you have a large number of routes connected, turning on routes
             // caching in production could improve performance. For that when
@@ -95,16 +93,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
-            ->add(new BodyParserMiddleware())
-
-            // Cross Site Request Forgery (CSRF) Protection Middleware
-            // https://book.cakephp.org/4/en/controllers/middleware.html#cross-site-request-forgery-csrf-middleware
-            ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
-            ]))
-            // Authentication Middleware
-            // https://book.cakephp.org/authentication/2/en/index.html
-            ->add(new AuthenticationMiddleware($this));
+            ->add(new BodyParserMiddleware());
 
         return $middlewareQueue;
     }
@@ -127,39 +116,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
 
         // Load more plugins here
-    }
-
-    /**
-     * Returns a service provider instance.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     * @return \Authentication\AuthenticationServiceInterface
-     */
-    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-    {
-        $service = new AuthenticationService();
-
-        // Define where users should be redirected to when they are not authenticated
-        $service->setConfig([
-            'unauthenticatedRedirect' => '/users/login',
-            'queryParam' => 'redirect',
-        ]);
-
-        $fields = [
-            IdentifierInterface::CREDENTIAL_USERNAME => 'username',
-            IdentifierInterface::CREDENTIAL_PASSWORD => 'passwd'
-        ];
-        // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => '/users/login'
-        ]);
-
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
-
-        return $service;
     }
 
 }

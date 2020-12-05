@@ -24,6 +24,7 @@ class CommentsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->requirePresence('content')
             ->notEmptyString('content')
             ->maxLength('content', 255);
 

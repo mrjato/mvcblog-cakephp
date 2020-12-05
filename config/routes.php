@@ -155,12 +155,17 @@ $routes->scope('/', function (RouteBuilder $builder) {
 $routes->scope('/public', ['prefix' => 'PublicRest'], function (RouteBuilder $builder) {
     $builder->setExtensions(['json']);
     $builder->resources('Posts');
+    $builder->resources('Users');
 });
 
 $routes->scope('/private', ['prefix' => 'PrivateRest'], function (RouteBuilder $builder) {
     $builder->applyMiddleware('rest-auth');
     $builder->setExtensions(['json']);
     $builder->resources('Posts');
+    $builder->resources('Comments');
+    
+     // We need to add the id option because, by default, only numeric and UUID values are supported
+    $builder->resources('Users', ['id' => '.*']);
 });
 
 /*
